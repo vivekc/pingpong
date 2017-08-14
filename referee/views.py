@@ -11,8 +11,7 @@ from signal import signal
 
 # Create your views here.
 
-#championship = Queue(max_size=MAX_NO_OF_PLAYERS)
-championship = Queue()
+championship = Queue(maxsize=MAX_NO_OF_PLAYERS)
 
 class IndexView(TemplateView):
     template_name = "index.html"
@@ -21,7 +20,7 @@ class IndexView(TemplateView):
         return render(request, self.template_name)
 
 
-class DrawGames(object):
+def draw_games():
     """
     Draw games for Initial Round
 
@@ -36,7 +35,7 @@ class DrawGames(object):
     player_ids = list()
 
     if not championship.full():
-        return false
+        return False
 
     for i in range(MAX_NO_OF_PLAYERS):
         try:
@@ -48,8 +47,8 @@ class DrawGames(object):
     i = 0
     while i < len(player_ids):
         GameMoves.objects.create(
-            attacker=player_ids[i],
-            defender=player_ids[i+1]
+            attacker=Player.objects.get(player_id=player_ids[i]),
+            defender=Player.objects.get(player_id=player_ids[i+1])
         )
         i += 2
 
@@ -81,5 +80,6 @@ class JoinChampionship(APIView):
         if championship.full():
             print "All players have joined the Championship"
             # draw initial round of games and inform players of their opponents and sequence of play
+            draw_games()
         return Response(
             {'success': True, "response_code": HTTP_200_OK, "message": "You have successfully joined the tournament"})
