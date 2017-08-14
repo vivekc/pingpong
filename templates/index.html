@@ -1,0 +1,14 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Ping Pong Application</title>
+    <script type="text/javascript" src="/static/js/jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="/static/js/index.js"></script>
+</head>
+<body>
+    {% csrf_token %}
+    <button id="1" onclick="join_player(1)">player 1</button>
+    <button id="2" onclick="join_player(2)">player 2</button>
+
+</body>
+</html>

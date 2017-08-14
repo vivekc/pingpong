@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pingpong - Dashboard</title>
+    <script type="text/javascript" src="/static/js/jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="/static/js/index.js"></script>
+    <script type="text/javascript" src="/static/js/players.js"></script>
+</head>
+<body>
+<table>
+{% for player in players %}
+    <tr>
+        <td>{{ player.player_id }}</td>
+        <td>{{ player.name }}</td>
+        <td><button onclick="join_championship({{ player.player_id }})">Join Tournament</button> </td>
+    </tr>
+{% endfor %}
+    {% if not players %}
+        <h6>No players have been configured yet. Please refer README.md</h6>
+    {% endif %}
+</table>
+</body>
+</html>
