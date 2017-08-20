@@ -9,15 +9,15 @@
     {% else %}
     <table class="table container-fluid" style="max-width:600px;margin:50px auto;">
         <thead>
-        <th class="td20">Id</th>
-        <th class="td50">Player Name</th>
-        <th class="td30">Action</th>
+        <th class="width20">Id</th>
+        <th class="width50">Player Name</th>
+        <th class="width30">Action</th>
         </thead>
         {% for player in players %}
         <tr>
-            <td class="td20">{{ player.player_id }}</td>
-            <td class="td50">{{ player.name }}</td>
-            <td class="td30">
+            <td class="width20">{{ player.player_id }}</td>
+            <td class="width50">{{ player.name }}</td>
+            <td class="width30">
                 <button id="join_player{{player.player_id}}" class="btn btn-info"
                         onclick="join_championship(event, {{ player.player_id }})">Join Tournament
                 </button>
