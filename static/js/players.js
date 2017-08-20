@@ -14,7 +14,8 @@ function join_championship(event, player_id){
         success:function(response)
         {
             event.target.setAttribute("disabled", true);
-            console.log(response);
+            event.target.setAttribute("class", "btn");
+            console.log(response.message);
         }
     })
 }

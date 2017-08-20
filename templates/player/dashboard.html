@@ -1,29 +1,31 @@
+{% extends "base.html" %}
+
 {% load static %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css"/>
-    <title>Pingpong - Dashboard</title>
-    <script type="text/javascript" src="/static/js/jquery-1.11.3.js"></script>
-    <script type="text/javascript" src="/static/js/index.js"></script>
-    <script type="text/javascript" src="/static/js/players.js"></script>
-</head>
-<body>
-<table>
+{% block content %}
+<div class="container">
     {% if not players %}
-        <h6>No players have been configured yet. Please refer README.md</h6>
+    <h6>No players have been configured yet. Please refer README.md</h6>
     {% else %}
-        <table class="table">
+    <table class="table container-fluid" style="max-width:600px;margin:50px auto;">
+        <thead>
+        <th class="td20">Id</th>
+        <th class="td50">Player Name</th>
+        <th class="td30">Action</th>
+        </thead>
         {% for player in players %}
-            <tr>
-                <td>{{ player.player_id }}</td>
-                <td>{{ player.name }}</td>
-                <td><button id="join_player{{player.player_id}}" onclick="join_championship(event, {{ player.player_id }})">Join Tournament</button> </td>
-            </tr>
+        <tr>
+            <td class="td20">{{ player.player_id }}</td>
+            <td class="td50">{{ player.name }}</td>
+            <td class="td30">
+                <button id="join_player{{player.player_id}}" class="btn btn-info"
+                        onclick="join_championship(event, {{ player.player_id }})">Join Tournament
+                </button>
+            </td>
+        </tr>
         {% endfor %}
-        </table>
+    </table>
     {% endif %}
-</table>
-</body>
-</html>
+    </table>
+</div>
+{% endblock %}

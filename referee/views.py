@@ -13,6 +13,7 @@ from signal import signal
 
 championship = Queue(maxsize=MAX_NO_OF_PLAYERS)
 
+
 class IndexView(TemplateView):
     template_name = "index.html"
 
@@ -36,14 +37,13 @@ def draw_games():
 
     if not championship.full():
         return False
-
+    print "collecting queued player ids"
     for i in range(MAX_NO_OF_PLAYERS):
         try:
-            print "collecting queued player ids"
             player_ids.append(championship.get())
         except Empty:
             pass
-
+    print player_ids
     i = 0
     while i < len(player_ids):
         GameMoves.objects.create(
@@ -51,6 +51,9 @@ def draw_games():
             defender=Player.objects.get(player_id=player_ids[i+1])
         )
         i += 2
+
+    # Initial games have been setup, inform players about their game id,
+    # opponent and their order of play (first, second)
 
 
 class JoinChampionship(APIView):
@@ -77,9 +80,12 @@ class JoinChampionship(APIView):
                 {"success": False, "response_code": HTTP_412_PRECONDITION_FAILED, "message": "Championship is full"}
             )
         championship.put(player_id)
+        message = ""
         if championship.full():
-            print "All players have joined the Championship"
+            message = "All players have joined the Championship"
             # draw initial round of games and inform players of their opponents and sequence of play
             draw_games()
         return Response(
-            {'success': True, "response_code": HTTP_200_OK, "message": "You have successfully joined the tournament"})
+            {'success': True, "response_code": HTTP_200_OK,
+             "message": "Player %s successfully joined the tournament. %s" % (str(player_id), message)
+             })
